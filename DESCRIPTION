@@ -2,7 +2,7 @@ Package: arraydesignR
 Title: Shiny App for Designing Acoustic Receiver Arrays
 Version: 0.1.0
 Authors@R:
-    person("Jacob", "Brownscombe", , "jakebrownscombe@gmail.com", role = c("aut", "cre", "cph"),
+    person(c("Jacob", "W."), "Brownscombe", , "jakebrownscombe@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0003-2496-8764"))
 Description: A Shiny application for designing acoustic receiver arrays and
     testing the performance of tracking systems on a depth raster, for a new

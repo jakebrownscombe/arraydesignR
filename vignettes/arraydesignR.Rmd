@@ -31,11 +31,9 @@ The sections below follow the app on Stoney Lake at its default settings, tab by
 that return the numbers each tab shows. The articles of **arraydesign** go further in R:
 [the article on designing an array from your own files](https://jakebrownscombe.github.io/arraydesign/articles/design-an-array.html),
 [the article on movement models](https://jakebrownscombe.github.io/arraydesign/articles/movement-models.html) and
-[the article on each part of a simulation](https://jakebrownscombe.github.io/arraydesign/articles/simulate-detections.html). Each is linked again
-in the section it extends.
+[the article on each part of a simulation](https://jakebrownscombe.github.io/arraydesign/articles/simulate-detections.html).
 
-`run_app()` starts the app in the browser. In a knitted page such as this one the line does
-nothing.
+`run_app()` starts the app in the browser.
 
 ```{r run-app}
 # Start the app in an R session
@@ -44,17 +42,14 @@ if (interactive()) arraydesignR::run_app()
 
 ## 1. Study area and receivers
 
-The app opens on Stoney Lake, Ontario. Another water body is uploaded as a GeoTIFF of water depth with
-land as NA. In the sidebar you choose a regular grid or a random draw, the number of receivers,
-the random seed and a minimum receiver depth, then press **Generate**. A click on the map adds or
-removes one receiver, and a CSV file of receivers can be uploaded. The app opens on the depth
-raster with no receivers; **Generate** at the default settings places 20 receivers on the grid,
-seed 1, at least 1 m deep.
+The app opens on Stoney Lake, Ontario, with no receivers. Another water body is uploaded as a
+GeoTIFF of water depth with land as NA. In the sidebar you choose a regular grid or a random draw,
+the number of receivers, the random seed and a minimum receiver depth, then press **Generate**.
+A click on the map adds or removes one receiver, and a CSV file of receivers can be uploaded.
+**Generate** at the default settings places 20 receivers on the grid, seed 1, at least 1 m deep.
 
-Read the depth raster the app opens on. It returns a `SpatRaster` with depth as zero or
-negative metres and land as NA. It is a 100 m depth raster of Stoney Lake derived from the
-bathymetry made before 2024, with the same grid and depths as `depth_raster` of positionR 1.7.0
-and the CRS set to EPSG:32617.
+Read the depth raster the app opens on. It is a `SpatRaster` of Stoney Lake with depth as zero
+or negative metres and land as NA.
 
 ```{r read-lake}
 library(terra)
@@ -69,8 +64,6 @@ range(abs(values(lake)), na.rm = TRUE)
 ```
 
 The cells are 100 m square, in UTM zone 17N (EPSG 32617).
-`r sum(values(lake) == 0, na.rm = TRUE)` of the
-`r format(sum(!is.na(values(lake))), big.mark = ",")` water cells hold 0.
 
 Set water shallower than the minimum receiver depth to NA, as the app does. The cells left are
 the ones a receiver may occupy.
@@ -103,23 +96,19 @@ which [section 3](#coverage-and-the-map-layers) computes.
 knitr::include_graphics("../man/figures/app_map.png")
 ```
 
-*The Map tab after **Generate** and **Compute coverage** at the default settings: the array
-detection probability of each water cell under the 20 receivers, over an OpenStreetMap base
-map.*
+*The Map tab after **Generate** and **Compute coverage** at the default settings.*
 
 ## 2. Range model
 
 Detection probability falls with distance on a logistic curve through 0.5 at d50 and 0.05 at
-d05. On the Range model tab you set d50 and d05 at a shallow and a deep receiver depth. Both are
-interpolated linearly by each receiver's depth and held at the nearer depth outside the two.
-Every water body opens on the app defaults, which the next chunk sets. No range test stands behind
-these values; replace them with the d50 and d05 of your own range test. The two-distance curve
-is a stand-in for a study with no range test. In R, a model fitted to a range test, varying with
-depth and date, goes in through `detfield::de_model()`
+d05. On the Range model tab you set d50 and d05 at a shallow and a deep receiver depth, and both are
+interpolated linearly by each receiver's depth and held constant outside the two depths. The app
+defaults, which the next chunk sets, come from no range test; replace them with the d50 and d05
+of your own. In R, a
+model fitted to a range test, varying with depth and date, goes in through `detfield::de_model()`
 (see the [article on range models](https://jakebrownscombe.github.io/detfield/articles/range-model.html) of **detfield**).
 
-Build the default curve with `detfield::de_logistic()`. It returns a detection model whose
-`curve$predict` element gives the logit of detection probability at a distance and a receiver depth.
+Build the default curve with `detfield::de_logistic()`. It returns a detection model.
 
 ```{r curve}
 # The app defaults: d50 and d05 at a 1 m and a 35 m receiver
@@ -136,11 +125,11 @@ Read the curve at 0 m, d50 and d05 for a receiver 1 m deep. `curve$predict` retu
 plogis(curve$predict(c(0, 250, 500), depth_m = 1))
 ```
 
-Because d05 is twice d50, detection at 0 m is 0.95. The closer d05 sits to d50, the nearer
+Because d05 is twice d50, detection at 0 m is 0.95. The closer d05 is to d50, the nearer
 the curve starts to 1.
 
 The app leaves out cells farther from every receiver than the distance at which the curve falls
-below 0.001. The curve reaches farthest for the deepest receivers, so that distance is read at 35 m.
+below 0.001, read at the deeper receiver depth, 35 m.
 
 ```{r cutoff}
 # The first whole metre at which a 35 m receiver detects with p < 0.001
@@ -189,7 +178,7 @@ field <- detfield::de_field(distances, curve)
 
 The app keeps the default, `blocked = 0`, so behind islands and points of land the map
 overstates detection. In R, a negative `blocked` value in `detfield::de_model()` lowers detection
-on those pairs, and `-Inf` makes a receiver deaf to them.
+on those pairs.
 
 Combine the receivers with `detfield::system_de()`. It needs the days each receiver listened;
 one day for all 20 gives the coverage of the layout.
@@ -228,8 +217,7 @@ mean(coverage >= 0.05)
 The hourly probability is p_hour = 1 - (1 - p)^n, with n = 3600 / delay transmissions an hour
 at the mean transmission delay set on the tab (120 s to start, so n = 30). It assumes that
 successive transmissions are detected independently; where detection is clustered in time,
-p_hour overstates the chance of a detection. The chunk computes p_hour for every water cell and
-counts the cells at 0.95 or more.
+p_hour overstates the chance of a detection.
 
 ```{r share-hour}
 # Probability of at least one detection in an hour, 30 transmissions
@@ -249,10 +237,7 @@ single_receiver <- arraydesign::coverage_summary(field,
 single_receiver
 ```
 
-These are the "Any one receiver" columns of the tab's table, at 0.05 and 0.5. The
-`r sum(coverage >= 0.5) - single_receiver$n_cells[single_receiver$threshold == 0.5]` cells that
-the array reaches at 0.5 and no single receiver does are reached only through the overlap of two
-or more receivers.
+These are the "Any one receiver" columns of the tab's table, at 0.05 and 0.5.
 
 ```{r app-performance, echo = FALSE, out.width = "100%", fig.alt = "Screenshot of the app's Performance tab: three tiles, the coverage table and a histogram."}
 knitr::include_graphics("../man/figures/app_performance.png")
@@ -265,7 +250,7 @@ knitr::include_graphics("../man/figures/app_performance.png")
 The Simulation tab walks animals through the water on a correlated random walk, sends their
 transmissions at a random delay between a shortest and a longest delay, and each receiver hears
 each transmission, or not, under the range model. The detection rate of an animal is the share of its
-transmissions heard by at least one receiver. The tab computes no positions.
+transmissions heard by at least one receiver.
 
 Set the movement model with `arraydesign::crw_model()`. The values are the app's starting ones;
 no species was measured for them. To set a walk for your species, see
@@ -326,8 +311,7 @@ heard <- detections$transmissions$n_detections > 0
 sum(heard)
 ```
 
-Summarise the detection rate across animals. The chunk returns the mean, SE, median and range
-in percent, then the number of animals never detected.
+Summarise the detection rate across animals.
 
 ```{r rate}
 # Share of each animal's transmissions heard
@@ -341,8 +325,7 @@ round(100 * c(mean = mean(detection_rate),
 sum(detection_rate == 0)
 ```
 
-Count the animal-hours with at least one detection. The walk starts at the first hour of 2025
-in UTC, and the app counts hours from there.
+Count the animal-hours with at least one detection.
 
 ```{r animal-hours}
 # Hour of the walk, 0 to 5, of each transmission; the last second counts
