@@ -346,8 +346,12 @@ test_that("the study area module serves the chosen area and an upload", {
 })
 
 test_that("an ASCII grid upload is refused, named, and shown beside the area", {
+  # The module refuses the upload by its name before reading it, so the file
+  # only has to be an ASCII grid; terra's writer for that format failed on the
+  # macOS CI runner.
   asc <- withr::local_tempfile(fileext = ".asc")
-  terra::writeRaster(arraydesign::example_lake(), asc)
+  writeLines(c("ncols 2", "nrows 2", "xllcorner 0", "yllcorner 0", "cellsize 100",
+               "NODATA_value -9999", "1 2", "3 4"), asc)
   shiny::testServer(mod_study_area_server, args = list(areas = study_areas()), {
     session$setInputs(choice = "Stoney Lake (100 m)")
     session$setInputs(upload = list(name = "lake.asc", datapath = asc))

@@ -136,6 +136,9 @@ test_that("the README's links and figures resolve on GitHub as well as on the si
   # figures from man/figures, which pkgdown rewrites for the site.
   own <- testthat::test_path("..", "..", "README.md")
   skip_if(!file.exists(own), "README.md of the source tree is not beside the tests")
+  # A coverage run copies README.md beside the tests but not man/figures.
+  skip_if(!dir.exists(testthat::test_path("..", "..", "man", "figures")),
+          "man/figures of the source tree is not beside the tests")
   text <- readLines(own, warn = FALSE)
   expect_false(is_broken_link(text))
   figs <- regmatches(text, regexpr("man/figures/[A-Za-z0-9_.-]+", text))
