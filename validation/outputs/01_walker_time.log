@@ -1,0 +1,52 @@
+
+> library(arraydesignR)
+
+> R.version.string
+[1] "R version 4.2.1 (2022-06-23)"
+
+> Sys.info()[c("sysname", "machine")]
+ sysname  machine 
+"Darwin"  "arm64" 
+
+> packageVersion("arraydesignR")
+[1] '0.1.0'
+
+> packageVersion("arraydesign")
+[1] '0.1.1'
+
+> system("sysctl -n vm.loadavg 2>/dev/null || cat /proc/loadavg", 
++     intern = TRUE)
+[1] "{ 8.79 6.18 5.36 }"
+
+> ns <- asNamespace("arraydesignR")
+
+> lake <- terra::rast(system.file("extdata", "stoney_depth.tif", 
++     package = "arraydesignR"))
+
+> m <- ns$movement_defaults
+
+> walk <- ns$build_movement(m)
+
+> n_animals <- 50
+
+> hours <- 24
+
+> n_steps <- round(hours * 3600/m$time_step)
+
+> n_animals * n_steps
+[1] 72000
+
+> n_animals * n_steps <= ns$max_steps_per_run
+[1] TRUE
+
+> control <- arraydesign::track_control(start_time = ns$sim_start)
+
+> secs <- vapply(1:5, function(seed) {
++     system.time(arraydesign::simulate_tracks(lake, walk, n_animals = n_animals, 
++         n_steps = n_steps, .... [TRUNCATED] 
+
+> round(secs, 2)
+[1] 1.29 1.33 1.26 1.26 1.26
+
+> round(median(secs), 2)
+[1] 1.26

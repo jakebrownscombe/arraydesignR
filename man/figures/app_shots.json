@@ -1,0 +1,52 @@
+{
+  "_about": "Values the app showed on screen in each app screenshot of man/figures, as the screens print them, kept as a record beside the PNGs; no page reads this file. Each value was read from the page text of the running app after the clicks of tools/app_shots.mjs, run by tools/site_figures.R. app_version names the installed versions the shots were taken with. headline gives the sentence under the coverage share, which R/coverage.R sets in headline_meaning, with the number of places the screenshot prints it. Update this file whenever the shots are retaken.",
+  "app_map.png": {
+    "app_version": "arraydesignR 0.1.0, arraydesign 0.1.1, detfield 0.1.1",
+    "banner_share_p50": "13.4%",
+    "banner_cells_p50": "648",
+    "water_cells": "4,818",
+    "headline": "(p ≥ 0.5 that any receiver detects one transmission)",
+    "headline_places": "2"
+  },
+  "app_performance.png": {
+    "app_version": "arraydesignR 0.1.0, arraydesign 0.1.1, detfield 0.1.1",
+    "share_p50": "13.4%",
+    "cells_p50": "648",
+    "share_p05": "46.0%",
+    "cells_p05": "2,216",
+    "share_hour_p95": "38.1%",
+    "hour_transmissions": "30",
+    "delay_s": "120",
+    "water_cells": "4,818",
+    "headline": "(p ≥ 0.5 that any receiver detects one transmission)",
+    "headline_places": "1"
+  },
+  "app_range_model.png": {
+    "app_version": "arraydesignR 0.1.0, arraydesign 0.1.1, detfield 0.1.1",
+    "in_use": "App defaults, unsourced (d50 250 m and d05 500 m at 1 m; d50 750 m and d05 1,500 m at 35 m)",
+    "curve_depths": "1 m, 18 m and 35 m",
+    "area_line": "Stoney Lake (100 m): 4,818 water cells of 100 m (EPSG 32617); depth 0 to 32.5 m.",
+    "banner_share_p50": "13.4%",
+    "banner_cells_p50": "648",
+    "water_cells": "4,818",
+    "headline": "(p ≥ 0.5 that any receiver detects one transmission)",
+    "headline_places": "1"
+  },
+  "app_simulation.png": {
+    "app_version": "arraydesignR 0.1.0, arraydesign 0.1.1, detfield 0.1.1",
+    "mean_rate": "16.0%",
+    "mean_rate_se": "2.9%",
+    "animals": "20",
+    "median_rate": "17.9%",
+    "min_rate": "0.0%",
+    "max_rate": "38.2%",
+    "never_detected": "4",
+    "share_animal_hours": "64.2%",
+    "animal_hours_detected": "77",
+    "animal_hours": "120",
+    "transmissions": "2,884",
+    "detected": "461",
+    "undetected": "2,423",
+    "headline_places": "0"
+  }
+}

@@ -1,0 +1,68 @@
+url: https://jakebrownscombe.github.io/arraydesignR/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+  bslib:
+    primary: "#2C5AA0"
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Sans 3"}
+    code_font: {google: "Source Code Pro"}
+
+# The repo is given its home only, so pkgdown writes no source links on the
+# article and reference pages, and no link leaves the site for a file page
+# that may not resolve.
+repo:
+  url:
+    home: https://github.com/jakebrownscombe/arraydesignR/
+
+home:
+  title: "arraydesignR: Shiny App for Designing Acoustic Receiver Arrays"
+  # Set explicitly so pkgdown adds no CRAN or rdrr.io link; the suite sites are in the navbar.
+  links: []
+
+navbar:
+  structure:
+    left: [intro, articles, reference, news]
+    right: [suite, search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/arraydesignR.html
+    # pkgdown leaves the intro vignette out of its own Articles menu, so the
+    # one article is listed here.
+    articles:
+      text: Articles
+      menu:
+        - text: The app, tab by tab
+          href: articles/arraydesignR.html
+    suite:
+      text: positionR
+      menu:
+        - text: positionR, the suite
+          href: https://jakebrownscombe.github.io/positionR/
+        - text: detqc, read, check and filter detections
+          href: https://jakebrownscombe.github.io/detqc/
+        - text: detfield, detection fields and positions
+          href: https://jakebrownscombe.github.io/detfield/
+        - text: arraydesign, design and test tracking systems
+          href: https://jakebrownscombe.github.io/arraydesign/
+        - text: arraydesignR, arraydesign as a point-and-click application
+          href: https://jakebrownscombe.github.io/arraydesignR/
+
+articles:
+  - title: Get started
+    navbar: Get started
+    desc: >
+      Each tab of the app at its defaults on Stoney Lake, with the R calls
+      from arraydesign and detfield that give the numbers the tab shows.
+    contents:
+      - arraydesignR
+
+reference:
+  - title: Design an array
+    desc: >
+      Open the app, place receivers on a depth raster and map the share of
+      water the array covers, for a new array or one already in the water.
+    contents:
+      - run_app

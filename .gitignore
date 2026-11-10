@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+inst/doc
+/doc/
+/Meta/
+docs
+*.Rcheck/
+*.tar.gz
+DEPLOY.md
+
+# Local tests stay off GitHub.
+tests/testthat/test-local-*.R
+tests/testthat/helper-local-*.R
+*.jsonl

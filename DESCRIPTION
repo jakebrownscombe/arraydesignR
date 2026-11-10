@@ -1,0 +1,55 @@
+Package: arraydesignR
+Title: Shiny App for Designing Acoustic Receiver Arrays
+Version: 0.1.0
+Authors@R:
+    person("Jacob", "Brownscombe", , "jakebrownscombe@gmail.com", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0003-2496-8764"))
+Description: A Shiny application for designing acoustic receiver arrays and
+    testing the performance of tracking systems on a depth raster, for a new
+    study or to refine an array already in the water. Receivers are placed with
+    'arraydesign', detection range is a depth-dependent logistic curve from
+    'detfield', and the share of the water the array covers is computed with the
+    distances through water, detection fields and array detection probability of
+    'detfield', so the app and the packages give the same numbers for the same
+    layout.
+License: GPL (>= 3)
+URL: https://jakebrownscombe.github.io/arraydesignR/,
+    https://github.com/jakebrownscombe/arraydesignR
+BugReports: https://github.com/jakebrownscombe/arraydesignR/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    arraydesign (>= 0.1.1),
+    bslib (>= 0.7.0),
+    cachem,
+    detfield (>= 0.1.1),
+    future,
+    ggplot2 (>= 3.5.0),
+    grid,
+    leaflet (>= 2.2.0),
+    markdown,
+    promises (>= 1.3.0),
+    rlang,
+    shiny (>= 1.8.1),
+    stats,
+    terra,
+    utils
+Suggests:
+    chromote,
+    knitr,
+    later,
+    rmarkdown,
+    sass,
+    shinytest2,
+    testthat (>= 3.1.7),
+    withr
+Remotes:
+    jakebrownscombe/arraydesign,
+    jakebrownscombe/detfield
+Config/testthat/edition: 3
+Config/positionR/tarball_limit: 2500000
+VignetteBuilder: knitr
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
