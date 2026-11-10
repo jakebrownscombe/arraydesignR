@@ -1,0 +1,10 @@
+pandoc: '3.8'
+pkgdown: 2.0.9
+pkgdown_sha: ~
+articles:
+  arraydesignR: arraydesignR.html
+last_built: 2026-11-10T14:13Z
+urls:
+  reference: https://jakebrownscombe.github.io/arraydesignR/reference
+  article: https://jakebrownscombe.github.io/arraydesignR/articles
+
