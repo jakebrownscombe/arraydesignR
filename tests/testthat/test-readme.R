@@ -76,6 +76,9 @@ test_that("the README's Cite section gives the entries of inst/CITATION, in orde
   own <- testthat::test_path("..", "..", "README.md")
   skip_if(!file.exists(own), "README.md of the source tree is not beside the tests")
   root <- testthat::test_path("..", "..")
+  # A coverage run copies README.md beside the tests but not inst/CITATION.
+  skip_if(!file.exists(file.path(root, "inst", "CITATION")),
+          "inst/CITATION of the source tree is not beside the tests")
   meta <- as.list(read.dcf(file.path(root, "DESCRIPTION"))[1, ])
   cites <- utils::readCitationFile(file.path(root, "inst", "CITATION"), meta = meta)
   expect_length(cites, 2)

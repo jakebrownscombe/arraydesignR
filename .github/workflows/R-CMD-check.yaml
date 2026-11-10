@@ -63,6 +63,9 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          # A cache of its own: the full job's cache restores here by prefix
+          # and brings the suggested packages without their system libraries.
+          cache-version: hard-deps-1
           # detfield and arraydesign are not on CRAN; the Remotes field of
           # DESCRIPTION names their GitHub repositories.
           dependencies: '"hard"'
